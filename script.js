@@ -1,66 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("stickerContainer");
     const openLetterBtn = document.getElementById("openLetterBtn");
     const letterContent = document.getElementById("letterContent");
-    const container = document.getElementById("stickerContainer");
 
-    // 1. Generar muchos stickers solo a los lados
-    const emojis = ["🐬", "🍓"];
-    const cantidad = 40; // Más cantidad como pediste
+    // 1. Generación responsiva de stickers
+    const isMobile = window.innerWidth < 600;
+    const cantidad = isMobile ? 18 : 35; // Menos stickers en móvil para no saturar
 
     for (let i = 0; i < cantidad; i++) {
         const span = document.createElement("span");
         span.className = "sticker";
-        span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        span.innerText = Math.random() > 0.5 ? "🐬" : "🍓";
         
-        // Decidir si va a la izquierda o a la derecha
-        const side = Math.random() > 0.5 ? "left" : "right";
-        let xPos;
-        
-        if (side === "left") {
-            xPos = Math.random() * 30; // 0% al 30% del ancho
-        } else {
-            xPos = 70 + (Math.random() * 25); // 70% al 95% del ancho
-        }
-
-        span.style.left = xPos + "%";
-        span.style.top = Math.random() * 90 + "%";
-        
-        // Guardamos una rotación inicial para la animación CSS
-        const initialRot = Math.floor(Math.random() * 40) - 20;
-        span.style.setProperty('--rot', `${initialRot}deg`);
+        // Solo colocar a los lados para no estorbar la carta
+        const side = Math.random() > 0.5 ? (Math.random() * 20) : (80 + Math.random() * 15);
+        span.style.left = side + "%";
+        span.style.top = Math.random() * 95 + "%";
+        span.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
         
         container.appendChild(span);
     }
 
-    const stickers = document.querySelectorAll(".sticker");
-
-    // 2. Control de Apertura
-    let isOpen = false;
+    // 2. Lógica de la carta
     openLetterBtn.addEventListener("click", () => {
-        isOpen = !isOpen;
-        letterContent.classList.toggle("hidden", !isOpen);
-        openLetterBtn.textContent = isOpen ? "Cerrar carta" : "Abrir carta";
-        if (isOpen) letterContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    });
-
-    // 3. Movimiento de Huida (Actualizado para trabajar con la flotación)
-    document.addEventListener("mousemove", (e) => {
-        stickers.forEach((s) => {
-            const rect = s.getBoundingClientRect();
-            const sX = rect.left + rect.width / 2;
-            const sY = rect.top + rect.height / 2;
-            const dist = Math.sqrt(Math.pow(e.clientX - sX, 2) + Math.pow(e.clientY - sY, 2));
-
-            if (dist < 150) {
-                const angle = Math.atan2(e.clientY - sY, e.clientX - sX);
-                const moveX = Math.cos(angle) * -50;
-                const moveY = Math.sin(angle) * -50;
-                s.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.3)`;
-                s.style.animationPlayState = "paused"; // Se detiene la flotación al interactuar
-            } else {
-                s.style.transform = "translate(0, 0) scale(1)";
-                s.style.animationPlayState = "running";
-            }
-        });
+        const isOpening = letterContent.classList.contains("hidden");
+        letterContent.classList.toggle("hidden");
+        openLetterBtn.textContent = isOpening ? "Cerrar carta" : "Abrir carta";
+        
+        if (isOpening) {
+            // Scroll suave hacia el mensaje en móviles
+            setTimeout(() => {
+                letterContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
     });
 });
