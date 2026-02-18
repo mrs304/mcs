@@ -2,34 +2,44 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Para mi niña hermosa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <title>Para mi niña preciosa</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="backdrop" id="stickerContainer"></div>
+    <div class="backdrop" id="stickerContainer">
+        <span class="sticker dolphin">🐬</span><span class="sticker dolphin">🐬</span>
+        <span class="sticker dolphin">🐬</span><span class="sticker dolphin">🐬</span>
+        <span class="sticker dolphin">🐬</span><span class="sticker dolphin">🐬</span>
+        <span class="sticker dolphin">🐬</span><span class="sticker dolphin">🐬</span>
+        <span class="sticker strawberry">🍓</span><span class="sticker strawberry">🍓</span>
+        <span class="sticker strawberry">🍓</span><span class="sticker strawberry">🍓</span>
+        <span class="sticker strawberry">🍓</span><span class="sticker strawberry">🍓</span>
+        <span class="sticker strawberry">🍓</span><span class="sticker strawberry">🍓</span>
+    </div>
 
     <main class="page">
-        <section class="card intro">
+        <section class="card intro" aria-live="polite">
             <p class="kicker">18 de febrero de 2026</p>
             <h1>Una carta un tanto diferente</h1>
             
             <figure class="heart-illustration">
-                <img src="image_5c8186.jpg" alt="Corazón de rosas" class="rose-heart">
+                <img src="image_5c8186.jpg" alt="Corazón de rosas" class="rose-heart pulse">
                 <figcaption>Para mi niña preciosa.</figcaption>
             </figure>
 
             <p class="muted">Aquí verás palabras y sentimientos que ya conoces.</p>
             
             <div class="letter-shell">
-                <button id="openLetterBtn" class="primary">Abrir carta</button>
-                
+                <button id="openLetterBtn" class="primary" type="button">Abrir carta</button>
                 <div id="letterContent" class="letter-content hidden">
-                    <p><strong>Mi niña hermosa, preciosa, cariño... ¡MI NOVIA!</strong></p>
-                    <p>No hubiera podido esperar ni una semana más sin llamarte así: <strong>MI NOVIA</strong>. Porque, ¿sabes algo? Quería... no, en realidad necesitaba que lo fueras, y que todo el mundo lo supiera (aunque, para ser honestos, ¡ya todos lo sospechaban!).</p>
-                    <p>Te quiero tanto, de verdad... así, mucho, muchote, porque eres simplemente <strong>¡wooooow!</strong></p>
-                    <p>Me encantas y me fascinas. Mis sentimientos por ti son cada vez más fuertes; cada día que te conozco me enamoro un poquito más de ti.</p>
-                    <p class="final-love">Espero que, no solo con mis palabras sino también con mis actos, entiendas lo mucho que <strong>¡TE AMO!</strong> Necesitaba que fueras mi novia porque eres tú, y solo tú, a quien quiero en mi vida.</p>
+                    <div class="scrollable-letter">
+                        <p>Mi niña hermosa, mi niña, cariño... <strong>¡MI NOVIA!</strong></p>
+                        <p>No hubiese podido esperar otra semana sin poder llamarte así: <strong>MI NOVIA</strong>. Porque, ¿sabes? Quería... no, necesitaba que fueses mi novia y que todo el mundo lo supiera (aunque, literalmente, ya todos pensaban que teníamos algo).</p>
+                        <p>Y es así, yo te quiero tanto, tanto... así, mucho, muchote, porque eres tan <strong>¡wooooow!</strong> Me encantas, me fascinas; realmente puedo decir que mis sentimientos y emociones por ti son muy fuertes.</p>
+                        <p>Cada día te conozco más y más, y cada día me enamoro más y más. Necesitaba que fueras mi novia porque eres <strong>tú</strong>, y solo <strong>tú</strong> a quien quiero en mi vida.</p>
+                        <p class="final-love">Espero que no solo con mis palabras, sino también con actos, entiendas que <strong>¡TE AMO!</strong></p>
+                    </div>
                 </div>
             </div>
         </section>

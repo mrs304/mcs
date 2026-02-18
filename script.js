@@ -1,37 +1,53 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("stickerContainer");
     const openLetterBtn = document.getElementById("openLetterBtn");
     const letterContent = document.getElementById("letterContent");
+    const stickers = document.querySelectorAll(".sticker");
 
-    // 1. Generación responsiva de stickers
-    const isMobile = window.innerWidth < 600;
-    const cantidad = isMobile ? 18 : 35; // Menos stickers en móvil para no saturar
-
-    for (let i = 0; i < cantidad; i++) {
-        const span = document.createElement("span");
-        span.className = "sticker";
-        span.innerText = Math.random() > 0.5 ? "🐬" : "🍓";
+    // --- 1. Distribución Dinámica Aleatoria ---
+    stickers.forEach(sticker => {
+        const randomTop = Math.random() * 90; // Evita el borde inferior
+        const randomLeft = Math.random() * 90; // Evita el borde derecho
+        sticker.style.top = `${randomTop}%`;
+        sticker.style.left = `${randomLeft}%`;
         
-        // Solo colocar a los lados para no estorbar la carta
-        const side = Math.random() > 0.5 ? (Math.random() * 20) : (80 + Math.random() * 15);
-        span.style.left = side + "%";
-        span.style.top = Math.random() * 95 + "%";
-        span.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
-        
-        container.appendChild(span);
-    }
+        // Rotación aleatoria para que parezcan stickers reales
+        const randomRotation = Math.random() * 40 - 20;
+        sticker.style.transform = `rotate(${randomRotation}deg)`;
+    });
 
-    // 2. Lógica de la carta
+    // --- 2. Lógica de Apertura ---
+    let isOpen = false;
     openLetterBtn.addEventListener("click", () => {
-        const isOpening = letterContent.classList.contains("hidden");
-        letterContent.classList.toggle("hidden");
-        openLetterBtn.textContent = isOpening ? "Cerrar carta" : "Abrir carta";
+        isOpen = !isOpen;
+        letterContent.classList.toggle("hidden", !isOpen);
+        openLetterBtn.textContent = isOpen ? "Cerrar carta" : "Abrir carta";
         
-        if (isOpening) {
-            // Scroll suave hacia el mensaje en móviles
-            setTimeout(() => {
-                letterContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
+        if(isOpen) {
+            letterContent.scrollIntoView({ behavior: 'smooth' });
         }
+    });
+
+    // --- 3. Movimiento Dinámico con el Mouse/Touch ---
+    const moveStickers = (clientX, clientY) => {
+        stickers.forEach(sticker => {
+            const rect = sticker.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dist = Math.hypot(clientX - centerX, clientY - centerY);
+
+            if (dist < 150) {
+                const angle = Math.atan2(clientY - centerY, clientX - centerX);
+                const pushX = -Math.cos(angle) * 40;
+                const pushY = -Math.sin(angle) * 40;
+                sticker.style.transform = `translate(${pushX}px, ${pushY}px) scale(1.2)`;
+            } else {
+                sticker.style.transform = `translate(0, 0)`;
+            }
+        });
+    };
+
+    document.addEventListener("mousemove", (e) => moveStickers(e.clientX, e.clientY));
+    document.addEventListener("touchmove", (e) => {
+        moveStickers(e.touches[0].clientX, e.touches[0].clientY);
     });
 });

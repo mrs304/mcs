@@ -1,79 +1,95 @@
 :root {
     --bg-start: #ffcad4; 
     --bg-end: #fbc4ab;   
-    --card: rgba(255, 255, 255, 0.95); 
-    --ink: #800e33;      /* Mantenemos tu color original */
+    --card: rgba(255, 255, 255, 0.92); 
+    --ink: #d46a6a;      /* Cambiado a rosa fuerte */
+    --muted: #b24a4a;    
     --accent: #ff8fa3;   
     --accent-strong: #ff4d6d;
+    --shadow: 0 20px 60px rgba(128, 14, 51, 0.15);
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
     margin: 0;
     min-height: 100vh;
-    font-family: "Didot", serif;
-    color: var(--ink);
-    background: radial-gradient(circle, var(--bg-start), var(--bg-end));
+    font-family: "Didot", "Bodoni MT", serif;
+    color: var(--ink); /* Aplicación del color rosa a las letras */
+    background: radial-gradient(circle at center, var(--bg-start), var(--bg-end));
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px; /* Espacio para que la carta no toque los bordes en el celular */
+    align-items: center;    /* Centrado vertical óptimo */
+    justify-content: center; /* Centrado horizontal óptimo */
+    padding: 20px;
     overflow-x: hidden; 
 }
 
-/* --- Stickers Adaptables --- */
+/* --- Stickers más grandes y dinámicos --- */
 .sticker {
     position: absolute;
-    font-size: clamp(1.5rem, 5vw, 2.8rem); /* Se encoge en celulares, crece en PC */
-    z-index: 1;
-    filter: drop-shadow(0 0 2px #fff) drop-shadow(2px 4px 8px rgba(0,0,0,0.12));
-    transition: transform 0.4s ease-out;
+    font-size: 3.5rem; /* Emojis más grandes como solicitaste */
+    filter: drop-shadow(3px 5px 8px rgba(0,0,0,0.1));
+    z-index: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    user-select: none;
 }
 
-/* --- Tarjeta Responsiva --- */
+/* --- Tarjeta Adaptable --- */
+.page {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 500px; /* Tamaño optimizado para móvil */
+}
+
 .card {
     background: var(--card);
-    border-radius: 30px;
-    padding: clamp(20px, 5vw, 40px);
-    box-shadow: 0 20px 60px rgba(128, 14, 51, 0.15);
-    text-align: center;
-    width: 100%;
-    max-width: 450px; /* Ancho máximo en PC */
-    z-index: 10;
-    position: relative;
+    border-radius: 40px;
+    padding: 45px 35px;
+    box-shadow: var(--shadow);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    text-align: center; /* Centrado del texto interno */
 }
 
+/* --- Imagen que palpita --- */
 .rose-heart {
     width: 100%;
-    max-height: 250px;
-    object-fit: contain;
-    margin: 15px 0;
+    max-width: 300px;
+    height: auto;
+    filter: drop-shadow(0 10px 15px rgba(128, 14, 51, 0.2));
+    animation: heartbeat 1.5s ease-in-out infinite; /* Animación de palpitar */
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.08); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    100% { transform: scale(1); }
 }
 
 .primary {
     background: linear-gradient(135deg, var(--accent), var(--accent-strong));
     color: white;
     border: none;
-    padding: 15px 30px;
-    border-radius: 25px;
+    padding: 15px 35px;
+    border-radius: 50px;
     font-weight: bold;
-    width: 100%; /* Botón ancho en celulares para fácil clic */
     cursor: pointer;
+    width: 100%; /* Botón completo para móvil */
+    box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
 }
 
 .letter-content {
-    margin-top: 20px;
-    text-align: left;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    max-height: 60vh; /* Evita que la carta sea más larga que la pantalla */
-    overflow-y: auto; /* Permite scroll interno si el texto es muy largo */
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    border: 1px dashed var(--accent);
+    color: var(--ink); /* Asegura que el contenido sea rosa */
 }
 
 .hidden { display: none !important; }
-
-/* --- Ajustes específicos para móviles --- */
-@media (max-width: 480px) {
-    h1 { font-size: 1.5rem; }
-    .card { border-radius: 20px; }
-}
